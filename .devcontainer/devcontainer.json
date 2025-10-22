@@ -1,0 +1,14 @@
+{
+    "name": "eclipse-s-core",
+    "image": "ghcr.io/eclipse-score/devcontainer:latest",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "matepek.vscode-catch2-test-adapter"
+            ],
+            "settings": {
+                "testMate.cpp.test.executables": "bazel-bin/**/*{test,Test,TEST}*"
+            }
+        }
+    }
+}

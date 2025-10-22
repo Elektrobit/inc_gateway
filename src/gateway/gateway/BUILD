@@ -1,0 +1,51 @@
+# *******************************************************************************
+# Copyright (c) 2025 Elektrobit Automotive GmbH
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# SPDX-License-Identifier: Apache-2.0
+# *******************************************************************************
+
+load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
+load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+
+cc_binary(
+    name = "someip_gateway",
+    srcs = glob(include = ["src/**"]),
+    data = [
+        "//src/gateway/someip_plugin:someip_network_plugin",
+    ],
+    dynamic_deps = [
+        "//src/gateway/plugin_interface:someip_plugin_interface",
+        "//src/socom",
+    ],
+    features = COMPILER_WARNING_FEATURES,
+    deps = [
+        "//src/gateway/common",
+        "//src/gateway/payload_transformation_plugin",
+        "@boost.program_options",
+        "@communication//score/mw/com",
+        "@score-baselibs//score/language/futurecpp",
+        "@score-baselibs//score/os:glob",
+    ],
+)
+
+sh_test(
+    name = "integration_test_someip_gateway",
+    srcs = [
+        "test_someip_gateway.sh",
+    ],
+    data = [
+        ":someip_gateway",
+        "//src/gateway/common:common.sh",
+        "//src/gateway/ipc_test_client:ipc_bridge_cpp",
+        "//src/gateway/ipc_test_client:ipc_bridge_rs",
+    ],
+    tags = ["exclusive"],
+)

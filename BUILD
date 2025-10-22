@@ -11,7 +11,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-load("@score_docs_as_code//:docs.bzl", "docs")
 load("@score_tooling//:defs.bzl", "copyright_checker", "dash_license_checker", "setup_starpls", "use_format_targets")
 load("//:project_config.bzl", "PROJECT_CONFIG")
 
@@ -42,7 +41,3 @@ dash_license_checker(
 
 # Add target for formatting checks
 use_format_targets()
-
-docs(
-    source_dir = "docs",
-)

@@ -5,12 +5,10 @@
     "files.trimTrailingWhitespace": true,
     "editor.insertSpaces": true,
     "editor.tabCompletion": "on",
-
     // Default for any filetype
     "editor.rulers": [
         99
     ],
-
     // Exclude build, temp and cache folders
     "files.watcherExclude": {
         ".*/**": true,
@@ -19,7 +17,6 @@
         ".venv*/**": true,
         "_build/**": true,
     },
-
     // Python Settings
     // Exclude build, temp and cache folders
     "python.analysis.exclude": [
@@ -42,7 +39,6 @@
         },
         "editor.defaultFormatter": "charliermarsh.ruff",
     },
-
     // Markdown Settings
     "[markdown]": {
         // We mostly write markdown in some combination with python,
@@ -57,7 +53,6 @@
         "run",
         "//:starpls_server"
     ],
-
     // RST Settings
     "[restructuredtext]": {
         "editor.tabSize": 3,
@@ -103,4 +98,5 @@
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
+    "editor.formatOnSave": true,
 }
