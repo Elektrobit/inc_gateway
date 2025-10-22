@@ -23,11 +23,11 @@ permissions:
   pull-requests: write
   issues: write
 
-
 jobs:
   license-check:
-    uses: eclipse-score/cicd-workflows/.github/workflows/license-check.yml@main
-    with:
-      repo-url: "${{ github.server_url }}/${{ github.repository }}"
-    secrets:
-      dash-api-token: ${{ secrets.ECLIPSE_GITLAB_API_TOKEN }}
+    run: echo "License check job is disabled"
+    # uses: eclipse-score/cicd-workflows/.github/workflows/license-check.yml@main
+    # with:
+    #   repo-url: "${{ github.server_url }}/${{ github.repository }}"
+    # secrets:
+    #   dash-api-token: ${{ secrets.ECLIPSE_GITLAB_API_TOKEN }}

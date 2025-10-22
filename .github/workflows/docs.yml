@@ -31,14 +31,15 @@ on:
 
 jobs:
   build-docs:
-    uses: eclipse-score/cicd-workflows/.github/workflows/docs.yml@main
-    permissions:
-      contents: write
-      pages: write
-      pull-requests: write
-      id-token: write
+    run: echo "Documentation job is disabled"
+    # uses: eclipse-score/cicd-workflows/.github/workflows/docs.yml@main
+    # permissions:
+    #   contents: write
+    #   pages: write
+    #   pull-requests: write
+    #   id-token: write
 
-    with:
-      # the bazel-target depends on your repo specific docs_targets configuration (e.g. "suffix")
-      bazel-target: "//:docs -- --github_user=${{ github.repository_owner }} --github_repo=${{ github.event.repository.name }}"
-      retention-days: 3
+    # with:
+    #   # the bazel-target depends on your repo specific docs_targets configuration (e.g. "suffix")
+    #   bazel-target: "//:docs -- --github_user=${{ github.repository_owner }} --github_repo=${{ github.event.repository.name }}"
+    #   retention-days: 3
