@@ -43,8 +43,23 @@ pkg_tar(
 )
 
 pkg_tar(
+    name = "applications",
+    srcs = [
+        "//src/gateway/common:common.sh",
+        "//src/gateway/gateway:someip_gateway",
+        "//src/gateway/gateway:test_someip_gateway.sh",
+        "//src/gateway/ipc_test_client:ipc_bridge_cpp",
+        "//src/gateway/ipc_test_client:ipc_bridge_rs",
+        "//src/gateway/someip_plugin:someip_network_plugin",
+    ],
+    mode = "0755",
+    package_dir = "bin",
+)
+
+pkg_tar(
     name = "inc_gateway_sdk",
     deps = [
+        ":applications",
         ":plugin_interface_headers",
         ":release_libs",
         ":socom_headers",
