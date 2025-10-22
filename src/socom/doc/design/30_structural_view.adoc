@@ -1,0 +1,110 @@
+// *******************************************************************************
+// Copyright (c) 2025 Elektrobit Automotive GmbH
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the
+// terms of the Apache License Version 2.0 which is available at
+// https://www.apache.org/licenses/LICENSE-2.0
+//
+// SPDX-License-Identifier: Apache-2.0
+// *******************************************************************************
+
+////
+Every asciidoc file in this document starts with the section level 0, i.e. a section like
+....
+= Title
+....
+
+When the file is included from another file within the document, the levels must be adjusted with the `leveloffset` attribute to the `include` directive at the point of inclusion, e.g.
+....
+include::file.adoc[leveloffset=+1]
+....
+////
+
+= Structural View
+
+The bundle service oriented communication (SOCom) implements components for client/server pattern based communication for the following communication paradigms:
+
+* remote procedure call;
+* publish/subscribe (event communication).
+
+SOCom provides interfaces which enable the implementation of service gateways (bridges).
+This allows users to independently implement service bridges for different communication protocols (e.g. IPC, SOME/IP, …).
+SOCom provides intra-process client/server communication only.
+
+.Component diagram of SOCom
+[plantuml, svg, align="center"]
+....
+include::models/component_diagram_socom.puml[]
+....
+
+.Software elements
+
+* <<runtime_component>>;
+* <<client_connector_component>>;
+* <<server_connector_component>>;
+
+[id=provided_interfaces_socom, reftext=hpcmw::socom]
+== Provided Interfaces
+The interfaces provided by SOCom are listed in the following table.
+
+.Provided Interfaces
+|====
+| Name | Description
+
+| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Runtime.html++[Runtime]
+| Interface that provides access to the service oriented communication (SOCom) middleware.
+
+| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Client__connector.html++[Client_connector]
+| Interface for applications to use a service (client-role).
+
+| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Disabled__server__connector.html++[Disabled_server_connector]
+| Interface for applications to use a service (server-role).
+
+| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Enabled__server__connector.html++[Enabled_server_connector]
+| Interface for applications to use a service (server-role).
+
+| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Bridge__identity.html++[Bridge_identity]
+| Class for a bridge identification.
+
+| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Find__subscription__handle.html++[Find_subscription_handle]
+| Interface class for Find_subscription RAII type.
+
+| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Service__bridge__registration__handle.html++[Service_bridge_registration_handle]
+| Interface class for Service_bridge_registration RAII type.
+
+| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Service__request__handle.html++[Service_request_handle]
+| Interface class for Service_request RAII type
+
+|====
+
+== Required Interfaces
+The SOCom library dependencies are listed in the table below.
+
+.Required Interfaces
+* <<../../../_common/doc/design/README.adoc#provided_interfaces_common,socom-common>>
+* core
+* base-logging
+
+[#client_connector_component]
+== Client connector
+
+A client application owns and uses this component to join client/server pattern based service oriented communication (SOCom).
+The client connector interacts with the server connector in order perform the supported communication primitives.
+The client connector API provides the following features:
+
+* service instance state change indications;
+* asynchronous remote procedure call:
+
+** with method reply;
+** without method reply (fire and forget).
+
+* event subscription:
+
+** with optional initial value request.
+
+* event subscription acknowledge indication;
+* event update indication;
+* requested event update indication.
