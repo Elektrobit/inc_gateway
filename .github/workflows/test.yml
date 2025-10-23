@@ -13,6 +13,9 @@
 
 name: Bazel build and test
 on:
+  push:
+    branches:
+      - main
   pull_request:
     types: [opened, reopened, synchronize]
   merge_group:
