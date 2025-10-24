@@ -26,6 +26,7 @@ cc_binary(
         "//src/socom",
     ],
     features = COMPILER_WARNING_FEATURES,
+    visibility = ["//visibility:public"],
     deps = [
         "//src/gateway/common",
         "//src/gateway/payload_transformation_plugin",
@@ -34,6 +35,11 @@ cc_binary(
         "@score-baselibs//score/language/futurecpp",
         "@score-baselibs//score/os:glob",
     ],
+)
+
+exports_files(
+    ["test_someip_gateway.sh"],
+    visibility = ["//visibility:public"],
 )
 
 sh_test(
