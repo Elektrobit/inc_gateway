@@ -21,6 +21,7 @@
 
 #include <cstddef>
 #include <cstdlib>
+#include <iostream>
 #include <type_traits>
 
 using score::gateway::IpcBridgeSkeleton;
@@ -68,9 +69,19 @@ Client_connector::Callbacks create_client_callbacks(IpcBridgeSkeleton& skeleton,
         copy_to(*payload, *sample);
         skeleton.map_api_lanes_stamped_.Send(std::move(sample));
     };
-    Client_connector::Callbacks client_callbacks{[](auto const&, auto, auto const&) {},
-                                                 event_update_callback, event_update_callback,
-                                                 [](auto const&, auto, auto) {}};
+    Client_connector::Callbacks client_callbacks{
+        [](auto const& client_connector, auto const service_state, auto const&) {
+            if (socom::Service_state::available == service_state) {
+                std::cout << "Service became available" << std::endl;
+                auto const subscription_status =
+                    client_connector.subscribe_event(0, Event_mode::update);
+                assert(subscription_status);
+            }
+            else {
+                std::cout << "Service became unavailable" << std::endl;
+            }
+        },
+        event_update_callback, event_update_callback, [](auto const&, auto, auto) {}};
     return client_callbacks;
 }
 
@@ -88,8 +99,6 @@ public:
               get_interface_configuration(), get_instance(), client_callbacks_)))
     {
         assert(client_connector_);
-        auto const subscription_status = client_connector_->subscribe_event(0, Event_mode::update);
-        assert(subscription_status);
     }
 
     ~Ipc_bridge_payload_transformator() override
