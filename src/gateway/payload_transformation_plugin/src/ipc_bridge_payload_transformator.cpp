@@ -62,7 +62,7 @@ Client_connector::Callbacks create_client_callbacks(IpcBridgeSkeleton& skeleton,
             auto sample_result = PrepareMapLaneSample(skeleton, cycle);
             cycle += 1U;
             if (!sample_result.has_value()) {
-                std::cerr << "No sample received. Exiting.\n";
+                std::cerr << "Sample allocation failed. Exiting.\n";
                 std::exit(EXIT_FAILURE);
             }
             auto sample = std::move(sample_result).value();
