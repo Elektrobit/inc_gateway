@@ -48,37 +48,6 @@ bazel_dep(name = "rules_cc", version = "0.2.1")
 # Shell rules for Bazel
 bazel_dep(name = "rules_shell", version = "0.6.1")
 
-# GCC toolchain, do not know how to allow deprecation warnings with LLVM
-bazel_dep(name = "score_toolchains_gcc", version = "0.4", dev_dependency = True)
-
-# Lets use host compiler
-# gcc = use_extension("@score_toolchains_gcc//extentions:gcc.bzl", "gcc", dev_dependency = True)
-# gcc.toolchain(
-#     sha256 = "457f5f20f57528033cb840d708b507050d711ae93e009388847e113b11bf3600",
-#     strip_prefix = "x86_64-unknown-linux-gnu",
-#     url = "https://github.com/eclipse-score/toolchains_gcc_packages/releases/download/0.0.1/x86_64-unknown-linux-gnu_gcc12.tar.gz",
-# )
-
-# TODO to be moved to toolchain. https://github.com/eclipse-score/toolchains_gcc/issues/11
-# gcc.extra_features(
-#     features = [
-#         "minimal_warnings",
-#         "treat_warnings_as_errors",
-#     ],
-# )
-# gcc.warning_flags(
-#     minimal_warnings = [
-#         "-Wall",
-#         "-Wno-error=deprecated-declarations",
-#     ],
-#     strict_warnings = [
-#         "-Wextra",
-#         "-Wpedantic",
-#     ],
-#     treat_warnings_as_errors = ["-Werror"],
-# )
-# use_repo(gcc, "gcc_toolchain", "gcc_toolchain_gcc")
-
 # tooling
 bazel_dep(name = "score_tooling", version = "1.0.1")
 bazel_dep(name = "aspect_rules_lint", version = "1.5.3")

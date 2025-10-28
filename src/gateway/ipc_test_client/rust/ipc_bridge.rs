@@ -15,29 +15,14 @@ use std::pin::pin;
 use std::thread::sleep;
 use std::time::Duration;
 
-use clap::{Parser, ValueEnum};
+use clap::Parser;
 use futures::{future::Either, Stream, StreamExt};
-
-#[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord, ValueEnum)]
-enum Mode {
-    /// Act as a data sender
-    Send,
-    /// Equivalent to send
-    Skeleton,
-    /// Act as a data receiver
-    Recv,
-    /// Equivalent to recv
-    Proxy,
-}
 
 #[derive(Parser)]
 struct Arguments {
     /// Number of cycles that are executed before determining success or failure. 0 indicates no limit
     #[arg(short, long, default_value = "0")]
     num_cycles: usize,
-    /// Set to either send/skeleton or recv/proxy to determine the role of the process
-    #[arg(value_enum, short, long)]
-    mode: Mode,
     /// Cycle time in milliseconds for sending/polling
     #[arg(
         short,
@@ -71,12 +56,14 @@ async fn get_samples<
     } else {
         Either::Right(map_api_lanes_stamped)
     };
+    let mut counter: usize = 0;
     while let Some(data) = map_api_lanes_stamped_iterator.next().await {
         println!(
-            "Received sample: {}, {}",
-            data.x,
+            "Received sample no: {}, with content: {}",
+            counter,
             std::str::from_utf8(&data.string_data).unwrap_or("<invalid utf8>")
         );
+        counter += 1;
     }
     println!("Unsubscribing...");
 }
@@ -112,28 +99,6 @@ fn run_recv_mode(instance_specifier: mw_com::InstanceSpecifier, args: &Arguments
     run(get_samples(map_api_lanes_stamped_stream, args.num_cycles));
 }
 
-fn run_send_mode(instance_specifier: mw_com::InstanceSpecifier, args: &Arguments) {
-    let skeleton = ipc_bridge_gen_rs::IpcBridge::Skeleton::new(&instance_specifier)
-        .expect("BigDataSkeleton creation failed");
-
-    let skeleton = skeleton.offer_service().expect("Failed offering from rust");
-    let mut x: u32 = 0;
-    while x < args.num_cycles as u32 || args.num_cycles == 0 {
-        let mut sample: ipc_bridge_gen_rs::MapApiLanesStamped =
-            ipc_bridge_gen_rs::MapApiLanesStamped::default();
-        sample.x = x;
-        skeleton
-            .events
-            .map_api_lanes_stamped_
-            .send(sample)
-            .expect("Failed sending event");
-
-        println!("Sending sample: {}", x);
-        x += 1;
-        sleep(args.cycle_time);
-    }
-}
-
 fn main() {
     let args = Arguments::parse();
     println!(
@@ -145,14 +110,6 @@ fn main() {
     let instance_specifier = mw_com::InstanceSpecifier::try_from("xpad/cp60/MapApiLanesStamped")
         .expect("Instance specifier creation failed");
 
-    match args.mode {
-        Mode::Send | Mode::Skeleton => {
-            println!("Running in Send/Skeleton mode");
-            run_send_mode(instance_specifier, &args);
-        }
-        Mode::Recv | Mode::Proxy => {
-            println!("Running in Recv/Proxy mode");
-            run_recv_mode(instance_specifier, &args);
-        }
-    }
+    println!("Running in Recv/Proxy mode");
+    run_recv_mode(instance_specifier, &args);
 }
