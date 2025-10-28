@@ -25,7 +25,6 @@
 using namespace std::chrono_literals;
 
 struct Params {
-    std::optional<std::string> mode;
     std::optional<std::string> instance_manifest;
     std::optional<std::chrono::milliseconds> cycle_time;
     std::optional<unsigned long> cycle_num;
@@ -70,7 +69,6 @@ Params ParseCommandLineArguments(const int argc, const char** argv)
     options.add_options()("num-cycles,n", po::value<std::size_t>()->default_value(0U),
                           "Number of cycles that are executed before determining success or "
                           "failure. 0 indicates no limit.");
-    options.add_options()("mode,m", po::value<std::string>(), "Set always to send/skeleton ");
     options.add_options()("cycle-time,t", po::value<std::size_t>(),
                           "Cycle time in milliseconds for sending/polling");
     options.add_options()("service_instance_manifest,s", po::value<std::string>(),
@@ -99,8 +97,7 @@ Params ParseCommandLineArguments(const int argc, const char** argv)
         std::exit(EXIT_SUCCESS);
     }
 
-    return {GetValueIfProvided<std::string>(args, "mode"),
-            GetValueIfProvided<std::string>(args, "service_instance_manifest"),
+    return {GetValueIfProvided<std::string>(args, "service_instance_manifest"),
             GetValueIfProvided<std::size_t, std::chrono::milliseconds>(args, "cycle-time"),
             GetValueIfProvided<std::size_t>(args, "num-cycles"),
             args["plugin-path"].as<std::string>(),
@@ -130,9 +127,8 @@ int main(const int argc, const char** argv)
     score::gateway::SetupAssertHandler();
     Params params = ParseCommandLineArguments(argc, argv);
 
-    if (!params.mode.has_value() || !params.cycle_num.has_value() ||
-        !params.cycle_time.has_value()) {
-        std::cerr << "Mode, number of cycles and cycle time should be specified" << std::endl;
+    if (!params.cycle_num.has_value() || !params.cycle_time.has_value()) {
+        std::cerr << "Number of cycles and cycle time should be specified" << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -143,7 +139,6 @@ int main(const int argc, const char** argv)
         score::mw::com::runtime::InitializeRuntime(2, runtime_args);
     }
 
-    const auto mode = params.mode.value();
     const auto cycles = params.cycle_num.value();
     const auto cycle_time = params.cycle_time.value();
 
@@ -160,12 +155,7 @@ int main(const int argc, const char** argv)
 
     auto& event_sender_receiver = create_result.value();
 
-    if (mode == "send" || mode == "skeleton") {
-        return event_sender_receiver.run(cycle_time, cycles);
-    }
-    else {
-        std::cerr << "Unknown mode " << mode << ", terminating." << std::endl;
-        return EXIT_FAILURE;
-    }
+    return event_sender_receiver.run(cycle_time, cycles);
+
     return EXIT_SUCCESS;
 }

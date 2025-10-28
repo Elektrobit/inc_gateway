@@ -52,10 +52,6 @@ function create_service_manifest() {
             {
               "eventName": "map_api_lanes_stamped",
               "eventId": 1
-            },
-            {
-              "eventName": "dummy_data_stamped",
-              "eventId": 2
             }
           ]
         }
@@ -123,9 +119,9 @@ function run_receiver_sender() {
     cleanup_lola
 
     # Run examples
-    $EXAMPLE_CMD_SEND --num-cycles 0 --mode send > "$TEMPDIR/send.log" 2>&1 &
+    $EXAMPLE_CMD_SEND --num-cycles 0 > "$TEMPDIR/send.log" 2>&1 &
     sender_pid=$!
-    $EXAMPLE_CMD_RECV --num-cycles 2 --mode recv > "$TEMPDIR/recv.log" 2>&1
+    $EXAMPLE_CMD_RECV --num-cycles 2 > "$TEMPDIR/recv.log" 2>&1
 
     echo -e "\nReceiver log:"
     cat "$TEMPDIR/recv.log"
