@@ -21,8 +21,6 @@
 namespace score::gateway {
 
 struct MapApiLanesStamped {
-    std::uint32_t x;
-
     // Must be null terminated
     std::array<std::uint8_t, 101U> string_data;
 };

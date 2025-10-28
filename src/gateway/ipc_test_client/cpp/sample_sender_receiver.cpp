@@ -41,40 +41,19 @@ namespace {
 class SampleReceiver {
 public:
     explicit SampleReceiver(const InstanceSpecifier& instance_specifier)
-        : instance_specifier_{instance_specifier}, last_received_{}, received_{0U}
+        : instance_specifier_{instance_specifier}, received_{0U}
     {
     }
 
     void ReceiveSample(const MapApiLanesStamped& map) noexcept
     {
-        std::cout << ToString(instance_specifier_, ": Received sample: ", map.x, ", ",
-                              map.string_data.data(), "\n");
-
-        if (CheckReceivedSample(map)) {
-            received_ += 1U;
-        }
-        last_received_ = map.x;
+        std::cout << ToString(instance_specifier_, ": Received sample no: ", received_,
+                              ", with content: ", map.string_data.data(), "\n");
+        received_ += 1U;
     }
-
-    std::size_t GetReceivedSampleCount() const noexcept { return received_; }
 
 private:
-    bool CheckReceivedSample(const MapApiLanesStamped& map) const noexcept
-    {
-        if (last_received_.has_value()) {
-            if (map.x <= last_received_.value()) {
-                std::cerr << ToString(instance_specifier_,
-                                      ": The received sample is out of order. Expected that ",
-                                      map.x, " > ", last_received_.value(), "\n");
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     const score::mw::com::InstanceSpecifier& instance_specifier_;
-    score::cpp::optional<std::uint32_t> last_received_;
     std::size_t received_;
 };
 

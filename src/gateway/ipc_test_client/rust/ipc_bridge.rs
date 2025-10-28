@@ -56,12 +56,14 @@ async fn get_samples<
     } else {
         Either::Right(map_api_lanes_stamped)
     };
+    let mut counter: usize = 0;
     while let Some(data) = map_api_lanes_stamped_iterator.next().await {
         println!(
-            "Received sample: {}, {}",
-            data.x,
+            "Received sample no: {}, with content: {}",
+            counter,
             std::str::from_utf8(&data.string_data).unwrap_or("<invalid utf8>")
         );
+        counter += 1;
     }
     println!("Unsubscribing...");
 }

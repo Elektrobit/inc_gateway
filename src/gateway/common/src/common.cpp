@@ -31,9 +31,8 @@ PrepareMapLaneSample(IpcBridgeSkeleton& skeleton, const std::size_t cycle)
         return sample_result;
     }
     auto sample = std::move(sample_result).value();
-    sample->x = static_cast<std::uint32_t>(cycle);
 
-    std::cout << ToString("Sending sample: ", sample->x, "\n");
+    std::cout << ToString("Sending sample: ", cycle, "\n");
     return sample;
 }
 
