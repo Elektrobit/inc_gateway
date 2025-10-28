@@ -23,9 +23,6 @@ namespace score::gateway {
 
 class EventSenderReceiver {
 public:
-    int RunAsSkeleton(const score::mw::com::InstanceSpecifier& instance_specifier,
-                      const std::chrono::milliseconds cycle_time, const std::size_t num_cycles);
-
     int RunAsProxy(const score::mw::com::InstanceSpecifier& instance_specifier,
                    const score::cpp::optional<std::chrono::milliseconds> cycle_time,
                    const std::size_t num_cycles);

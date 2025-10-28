@@ -31,7 +31,6 @@ common --@score-baselibs//score/json:base_library=nlohmann
 common --@communication//score/mw/com/flags:tracing_library=stub
 
 # Toolchain / compiler configuration. Impression is that Bazels leans towards not using host compiler
-# common --extra_toolchains=@gcc_toolchain//:host_gcc_12
 common --copt="-Wall"
 common --copt="-Wextra"
 common --copt="-pedantic"

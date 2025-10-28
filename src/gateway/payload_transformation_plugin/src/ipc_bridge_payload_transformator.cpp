@@ -58,12 +58,11 @@ void delete_plugin(Payload_transformation_plugin_interface* plugin)
 Client_connector::Callbacks create_client_callbacks(IpcBridgeSkeleton& skeleton, std::size_t& cycle)
 {
     Event_update_callback event_update_callback =
-        [&skeleton, &cycle](auto const&, auto const event_id, auto const& payload) {
-            std::cout << "Received event: " << event_id << "\n";
+        [&skeleton, &cycle](auto const&, auto const /* event_id */, auto const& payload) {
             auto sample_result = PrepareMapLaneSample(skeleton, cycle);
             cycle += 1U;
             if (!sample_result.has_value()) {
-                std::cerr << "No sample received. Exiting.\n";
+                std::cerr << "Sample allocation failed. Exiting.\n";
                 std::exit(EXIT_FAILURE);
             }
             auto sample = std::move(sample_result).value();

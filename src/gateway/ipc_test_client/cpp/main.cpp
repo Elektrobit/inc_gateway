@@ -23,7 +23,6 @@
 using namespace std::chrono_literals;
 
 struct Params {
-    score::cpp::optional<std::string> mode;
     score::cpp::optional<std::string> instance_manifest;
     score::cpp::optional<std::chrono::milliseconds> cycle_time;
     score::cpp::optional<unsigned long> cycle_num;
@@ -47,9 +46,6 @@ Params ParseCommandLineArguments(const int argc, const char** argv)
     options.add_options()("num-cycles,n", po::value<std::size_t>()->default_value(0U),
                           "Number of cycles that are executed before determining success or "
                           "failure. 0 indicates no limit.");
-    options.add_options()(
-        "mode,m", po::value<std::string>(),
-        "Set to either send/skeleton or recv/proxy to determine the role of the process");
     options.add_options()("cycle-time,t", po::value<std::size_t>(),
                           "Cycle time in milliseconds for sending/polling");
     options.add_options()("service_instance_manifest,s", po::value<std::string>(),
@@ -68,8 +64,7 @@ Params ParseCommandLineArguments(const int argc, const char** argv)
         std::exit(EXIT_SUCCESS);
     }
 
-    return {GetValueIfProvided<std::string>(args, "mode"),
-            GetValueIfProvided<std::string>(args, "service_instance_manifest"),
+    return {GetValueIfProvided<std::string>(args, "service_instance_manifest"),
             GetValueIfProvided<std::size_t, std::chrono::milliseconds>(args, "cycle-time"),
             GetValueIfProvided<std::size_t>(args, "num-cycles")};
 }
@@ -79,9 +74,8 @@ int main(const int argc, const char** argv)
     score::gateway::SetupAssertHandler();
     Params params = ParseCommandLineArguments(argc, argv);
 
-    if (!params.mode.has_value() || !params.cycle_num.has_value() ||
-        !params.cycle_time.has_value()) {
-        std::cerr << "Mode, number of cycles and cycle time should be specified" << std::endl;
+    if (!params.cycle_num.has_value() || !params.cycle_time.has_value()) {
+        std::cerr << "Number of cycles and cycle time should be specified" << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -92,7 +86,6 @@ int main(const int argc, const char** argv)
         score::mw::com::runtime::InitializeRuntime(2, runtime_args);
     }
 
-    const auto mode = params.mode.value();
     const auto cycles = params.cycle_num.value();
     const auto cycle_time = params.cycle_time.value();
 
@@ -106,15 +99,7 @@ int main(const int argc, const char** argv)
     }
     const auto& instance_specifier = instance_specifier_result.value();
 
-    if (mode == "send" || mode == "skeleton") {
-        return event_sender_receiver.RunAsSkeleton(instance_specifier, cycle_time, cycles);
-    }
-    else if (mode == "recv" || mode == "proxy") {
-        return event_sender_receiver.RunAsProxy(instance_specifier, cycle_time, cycles);
-    }
-    else {
-        std::cerr << "Unknown mode " << mode << ", terminating." << std::endl;
-        return EXIT_FAILURE;
-    }
+    return event_sender_receiver.RunAsProxy(instance_specifier, cycle_time, cycles);
+
     return EXIT_SUCCESS;
 }

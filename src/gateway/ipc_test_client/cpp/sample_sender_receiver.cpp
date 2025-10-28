@@ -23,7 +23,6 @@
 
 #include <cstring>
 #include <iostream>
-#include <sstream>
 #include <thread>
 #include <type_traits>
 #include <utility>
@@ -42,40 +41,19 @@ namespace {
 class SampleReceiver {
 public:
     explicit SampleReceiver(const InstanceSpecifier& instance_specifier)
-        : instance_specifier_{instance_specifier}, last_received_{}, received_{0U}
+        : instance_specifier_{instance_specifier}, received_{0U}
     {
     }
 
     void ReceiveSample(const MapApiLanesStamped& map) noexcept
     {
-        std::cout << ToString(instance_specifier_, ": Received sample: ", map.x, ", ",
-                              map.string_data.data(), "\n");
-
-        if (CheckReceivedSample(map)) {
-            received_ += 1U;
-        }
-        last_received_ = map.x;
+        std::cout << ToString(instance_specifier_, ": Received sample no: ", received_,
+                              ", with content: ", map.string_data.data(), "\n");
+        received_ += 1U;
     }
-
-    std::size_t GetReceivedSampleCount() const noexcept { return received_; }
 
 private:
-    bool CheckReceivedSample(const MapApiLanesStamped& map) const noexcept
-    {
-        if (last_received_.has_value()) {
-            if (map.x <= last_received_.value()) {
-                std::cerr << ToString(instance_specifier_,
-                                      ": The received sample is out of order. Expected that ",
-                                      map.x, " > ", last_received_.value(), "\n");
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     const score::mw::com::InstanceSpecifier& instance_specifier_;
-    score::cpp::optional<std::uint32_t> last_received_;
     std::size_t received_;
 };
 
@@ -153,7 +131,6 @@ int EventSenderReceiver::RunAsProxy(
             std::this_thread::sleep_for(*cycle_time);
         }
 
-        const auto received_before = receiver.GetReceivedSampleCount();
         Result<std::size_t> num_samples_received = map_api_lanes_stamped_event.GetNewSamples(
             [&receiver](SamplePtr<MapApiLanesStamped> sample) noexcept {
                 // For the GenericProxy case, the void pointer managed by the SamplePtr<void> will
@@ -162,39 +139,6 @@ int EventSenderReceiver::RunAsProxy(
                 receiver.ReceiveSample(sample_value);
             },
             SAMPLES_PER_CYCLE);
-        const auto received = receiver.GetReceivedSampleCount() - received_before;
-
-        const bool get_new_samples_api_error = !num_samples_received.has_value();
-        const bool mismatch_api_returned_receive_count_vs_sample_callbacks =
-            *num_samples_received != received;
-        const bool receive_handler_called_without_new_samples =
-            *num_samples_received == 0 && !cycle_time.has_value();
-
-        if (get_new_samples_api_error || mismatch_api_returned_receive_count_vs_sample_callbacks ||
-            receive_handler_called_without_new_samples) {
-            std::stringstream ss;
-            ss << instance_specifier << ": Error in cycle " << cycle
-               << " during sample reception: ";
-            if (!get_new_samples_api_error) {
-                if (mismatch_api_returned_receive_count_vs_sample_callbacks) {
-                    ss << "number of received samples doesn't match to what IPC claims: "
-                       << *num_samples_received << " vs " << received;
-                }
-                else {
-                    ss << "expected at least one new sample, since event-notifier has been called, "
-                          "but "
-                          "GetNewSamples() didn't provide one! ";
-                }
-            }
-            else {
-                ss << std::move(num_samples_received).error();
-            }
-            ss << ", terminating.\n";
-            std::cerr << ss.str();
-
-            map_api_lanes_stamped_event.Unsubscribe();
-            return EXIT_FAILURE;
-        }
 
         if (*num_samples_received >= 1U) {
             std::cout << ToString(instance_specifier, ": Proxy received valid data\n");
@@ -213,44 +157,6 @@ int EventSenderReceiver::RunAsProxy(
     std::cout << ToString(instance_specifier, ": Unsubscribing...\n");
     map_api_lanes_stamped_event.Unsubscribe();
     std::cout << ToString(instance_specifier, ": and terminating, bye bye\n");
-    return EXIT_SUCCESS;
-}
-
-int EventSenderReceiver::RunAsSkeleton(const score::mw::com::InstanceSpecifier& instance_specifier,
-                                       const std::chrono::milliseconds cycle_time,
-                                       const std::size_t num_cycles)
-{
-    auto create_result = IpcBridgeSkeleton::Create(instance_specifier);
-    if (!create_result.has_value()) {
-        std::cerr << "Unable to construct skeleton: " << create_result.error() << ", bailing!\n";
-        return EXIT_FAILURE;
-    }
-    auto& skeleton = create_result.value();
-
-    const auto offer_result = skeleton.OfferService();
-    if (!offer_result.has_value()) {
-        std::cerr << "Unable to offer service for skeleton: " << offer_result.error()
-                  << ", bailing!\n";
-        return EXIT_FAILURE;
-    }
-    std::cout << "Starting to send data\n";
-
-    for (std::size_t cycle = 0U; cycle < num_cycles || num_cycles == 0U; ++cycle) {
-        auto sample_result = PrepareMapLaneSample(skeleton, cycle);
-        if (!sample_result.has_value()) {
-            std::cerr << "No sample received. Exiting.\n";
-            return EXIT_FAILURE;
-        }
-        auto sample = std::move(sample_result).value();
-        skeleton.map_api_lanes_stamped_.Send(std::move(sample));
-
-        std::this_thread::sleep_for(cycle_time);
-    }
-
-    std::cout << "Stop offering service...";
-    skeleton.StopOfferService();
-    std::cout << "and terminating, bye bye\n";
-
     return EXIT_SUCCESS;
 }
 

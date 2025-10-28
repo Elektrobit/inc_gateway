@@ -16,14 +16,12 @@
 #[repr(C)]
 // #[derive(Default)]
 pub struct MapApiLanesStamped {
-    pub x: u32,
     pub string_data: [u8; 101],
 }
 
 impl Default for MapApiLanesStamped {
     fn default() -> Self {
         Self {
-            x: 0,
             string_data: [0; 101],
         }
     }

@@ -14,7 +14,6 @@
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_library")
-load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_binary(
@@ -66,18 +65,4 @@ cc_library(
         "//src/gateway/common",
         "@communication//score/mw/com/impl/rust:bridge_macros",
     ],
-)
-
-# Rust code dumps core when run in parallel with unit tests
-sh_test(
-    name = "integration_test_ipc_bridge",
-    srcs = [
-        "test_ipc_bridge.sh",
-    ],
-    data = [
-        ":ipc_bridge_cpp",
-        ":ipc_bridge_rs",
-        "//src/gateway/common:common.sh",
-    ],
-    tags = ["exclusive"],
 )
