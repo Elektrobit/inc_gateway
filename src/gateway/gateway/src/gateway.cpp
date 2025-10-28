@@ -25,6 +25,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <memory>
+#include <optional>
 #include <thread>
 #include <utility>
 
@@ -73,6 +74,16 @@ Gateway::Create_result Gateway::create(std::string const& plugin_path,
 
 int Gateway::run(const std::chrono::milliseconds cycle_time, const std::size_t num_cycles)
 {
+    auto const subscription = runtime_->subscribe_find_service(
+        [](auto const& interface, auto const& instance, auto status) {
+            std::cout << "Find service update: Interface " << interface.id << " v"
+                      << interface.version.major << "." << interface.version.minor << ", Instance "
+                      << instance << ", Status "
+                      << (status == socom::Find_result_status::added ? "Added" : "Deleted")
+                      << std::endl;
+        },
+        std::nullopt, std::nullopt, std::nullopt);
+
     std::vector<score::gateway::Payload_transformation_plugin_interface::Uptr> plugin_instances;
     plugin_instances.reserve(
         Plugin_handle<Payload_transformation_plugin_factory>::get_num_plugins());

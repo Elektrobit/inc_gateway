@@ -24,7 +24,7 @@ namespace score::gateway {
 Server_service_interface_configuration const& get_interface_configuration()
 {
     static Server_service_interface_configuration config{
-        Service_interface{"example.interface", {1, 0}}, to_num_of_methods(1), to_num_of_events(1)};
+        Service_interface{"example.interface", {0, 0}}, to_num_of_methods(0), to_num_of_events(1)};
     return config;
 }
 
