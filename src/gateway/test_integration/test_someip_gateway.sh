@@ -25,7 +25,8 @@ CPP_EXAMPLE_CMD="$(find * -name ipc_bridge_cpp) -s $MANIFEST_LOCATION --cycle-ti
 RUST_EXAMPLE_CMD="$(find * -name ipc_bridge_rs) -s $MANIFEST_LOCATION --cycle-time 10"
 
 # In initial setup gateway acts as sender
-GATEWAY_CMD="$(find * -name someip_gateway) -s $MANIFEST_LOCATION --cycle-time 10"
+PLUGIN_PATH="$(find * -name libsomeip_network_plugin.so)"
+GATEWAY_CMD="$(find * -name someip_gateway) --plugin-path $PLUGIN_PATH -s $MANIFEST_LOCATION --cycle-time 10"
 
 setup
 

@@ -45,17 +45,19 @@ pkg_tar(
 pkg_tar(
     name = "applications",
     srcs = [
-        "//src/gateway/common:common.sh",
         "//src/gateway/gateway:someip_gateway",
-        "//src/gateway/gateway:test_someip_gateway.sh",
-        "//src/gateway/ipc_test_client:ipc_bridge_cpp",
-        "//src/gateway/ipc_test_client:ipc_bridge_rs",
-        "//src/gateway/someip_plugin:someip_network_plugin",
+        "//src/gateway/test_integration:test_someip_gateway.sh",
+        "//src/gateway/test_integration/common:common.sh",
+        "//src/gateway/test_integration/ipc_test_client:ipc_bridge_cpp",
+        "//src/gateway/test_integration/ipc_test_client:ipc_bridge_rs",
+        "//src/gateway/test_integration/someip_plugin:someip_network_plugin",
     ],
     mode = "0755",
     package_dir = "bin",
 )
 
+# Create a tarball that contains the SDK for building SOME/IP plugins.
+# It also contains scripts and applications to test the SDK and created plugin.
 pkg_tar(
     name = "inc_gateway_sdk",
     deps = [

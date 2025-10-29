@@ -25,6 +25,11 @@ namespace score::gateway {
 class Payload_transformation_plugin_interface;
 using Payload_transformation_plugin_deleter = void (*)(Payload_transformation_plugin_interface*);
 
+/// \brief Translates the binary representation of a service's payload between different formats.
+///
+/// SOME/IP supports user defined types and these need to be transformed to the binary format used
+/// at IPC. Furthermore this is the place for E2E checks (not done yet).
+///
 // TODO it might make sense to have a pure C interface so that e.g. Rust can also implement the
 // plugin interface, but this requires socom to have a C interface as well
 class Payload_transformation_plugin_interface {
@@ -37,8 +42,10 @@ public:
     virtual ~Payload_transformation_plugin_interface();
 };
 
-/// \brief Signature of the plugin main function.
-// It could be anything else, like a factory.
+/// \brief Create new payload transformation plugin instance.
+///
+/// \param[in] runtime socom::Runtime which connects provided and required services
+/// \return pointer to created plugin instance
 using Payload_transformation_plugin_factory =
     Payload_transformation_plugin_interface::Uptr (*)(::score::socom::Runtime&);
 

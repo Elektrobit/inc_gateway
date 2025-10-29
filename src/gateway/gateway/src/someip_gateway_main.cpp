@@ -73,9 +73,7 @@ Params ParseCommandLineArguments(const int argc, const char** argv)
                           "Cycle time in milliseconds for sending/polling");
     options.add_options()("service_instance_manifest,s", po::value<std::string>(),
                           "Path to the com configuration file");
-    options.add_options()("plugin-path,p",
-                          po::value<std::string>()->default_value(
-                              "src/gateway/someip_plugin/libsomeip_network_plugin.so"),
+    options.add_options()("plugin-path,p", po::value<std::string>(),
                           "Path to the someip network plugin");
     options.add_options()("xsomeip-manifest-dir,x", po::value<std::string>(),
                           "Path to SOME/IP manifest file(s)");

@@ -21,6 +21,10 @@
 
 namespace score::gateway {
 
+/// \brief RAII wrapper for a dynamically loaded shared library
+///
+/// It only loads the shared library into memory and does no further `dlsym` operations.
+/// Plugin registration is done with static variables.
 class Dlopen {
 public:
     using Uptr = std::unique_ptr<Dlopen>;
