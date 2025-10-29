@@ -56,6 +56,8 @@ pkg_tar(
     package_dir = "bin",
 )
 
+# Create a tarball that contains the SDK for building SOME/IP plugins.
+# It also contains scripts and applications to test the SDK and created plugin.
 pkg_tar(
     name = "inc_gateway_sdk",
     deps = [
