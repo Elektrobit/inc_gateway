@@ -12,15 +12,11 @@
 # *******************************************************************************
 
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
-load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_binary(
     name = "someip_gateway",
     srcs = glob(include = ["src/**"]),
-    data = [
-        "//src/gateway/someip_plugin:someip_network_plugin",
-    ],
     dynamic_deps = [
         "//src/gateway/plugin_interface:someip_plugin_interface",
         "//src/socom",
@@ -29,30 +25,10 @@ cc_binary(
     visibility = ["//visibility:public"],
     deps = [
         "//src/gateway/common",
-        "//src/gateway/payload_transformation_plugin",
+        "//src/gateway/test_integration/payload_transformation_plugin",  # plugin statically linked
         "@boost.program_options",
         "@communication//score/mw/com",
         "@score-baselibs//score/language/futurecpp",
         "@score-baselibs//score/os:glob",
     ],
-)
-
-exports_files(
-    ["test_someip_gateway.sh"],
-    visibility = ["//visibility:public"],
-)
-
-sh_test(
-    name = "integration_test_someip_gateway",
-    timeout = "short",
-    srcs = [
-        "test_someip_gateway.sh",
-    ],
-    data = [
-        ":someip_gateway",
-        "//src/gateway/common:common.sh",
-        "//src/gateway/ipc_test_client:ipc_bridge_cpp",
-        "//src/gateway/ipc_test_client:ipc_bridge_rs",
-    ],
-    tags = ["exclusive"],
 )
