@@ -1,13 +1,21 @@
-# C++ & Rust Bazel Template Repository
+# SOME/IP Gateway
 
-This repository serves as a **template** for setting up **C++ and Rust projects** using **Bazel**.
-It provides a **standardized project structure**, ensuring best practices for:
+The SOME/IP Gateway adds SOME/IP network access to S-CORE.
+It bridges SOME/IP services from and to IPC and translates user defined types.
 
-- **Build configuration** with Bazel.
-- **Testing** (unit and integration tests).
-- **Documentation** setup.
-- **CI/CD workflows**.
-- **Development environment** configuration.
+The SOME/IP Gateway uses a plugin architecture to realize SOME/IP network access and payload transformation.
+The implementation tries to stick as much as possible to the [proposed architecture](https://eclipse-score.github.io/score/main/features/communication/some_ip_gateway/architecture/index.html).
+Because the SOME/IP Gateway code shall be kept generic the IPC code was moved into the payload transformation plugin.
+Otherwise it was not possible to keep the gateway code service agnostic.
+
+This is the code for [Elektrobits contribution](https://github.com/eclipse-score/score/issues/1830)
+
+## Proof of concept
+
+In its current state the code is a proof of concept to demonstrate how a SOME/IP Gateway can be implemented.
+It only shows that reception of SOME/IP events at IPC is possible.
+Methods and fields have been omitted because IPC does not support them yet.
+Also E2E checks and actual binary payload transformation have been omitted due to time constraints.
 
 ---
 
@@ -17,8 +25,6 @@ It provides a **standardized project structure**, ensuring best practices for:
 | ----------------------------------- | ------------------------------------------------- |
 | `README.md`                         | Short description & build instructions            |
 | `src/`                              | Source files for the module                       |
-| `tests/`                            | Unit tests (UT) and integration tests (IT)        |
-| `examples/`                         | Example files used for guidance                   |
 | `docs/`                             | Documentation (Doxygen for C++ / mdBook for Rust) |
 | `.github/workflows/`                | CI/CD pipelines                                   |
 | `.vscode/`                          | Recommended VS Code settings                      |
@@ -34,14 +40,11 @@ It provides a **standardized project structure**, ensuring best practices for:
 ### 1️⃣ Clone the Repository
 
 ```sh
-git clone https://github.com/eclipse-score/YOUR_PROJECT.git
-cd YOUR_PROJECT
+git clone https://github.com/Elektrobit/inc_gateway.git
+cd inc_gateway
 ```
 
 ### 2️⃣ Build the Examples of module
-
-> DISCLAIMER: Depending what module implements, it's possible that different
-> configuration flags needs to be set on command line.
 
 To build all targets of the module the following command can be used:
 
@@ -50,64 +53,20 @@ bazel build //src/...
 ```
 
 This command will instruct Bazel to build all targets that are under Bazel
-package `src/`. The ideal solution is to provide single target that builds
-artifacts, for example:
+package `src/`.
+
+If you are only interested in the SDK for building a SOME/IP plugin, build the tar archive of the SDK:
 
 ```sh
-bazel build //src/<module_name>:release_artifacts
+bazel build //src:inc_gateway_sdk
+cp bazel-bin/src/inc_gateway_sdk.tar .
 ```
 
-where `:release_artifacts` is filegroup target that collects all release
-artifacts of the module.
-
-> NOTE: This is just proposal, the final decision is on module maintainer how
-> the module code needs to be built.
+`inc_gateway_sdk.tar` contains the libraries and headers needed to build a SOME/IP plugin.
+It does not provide any build system integration yet.
 
 ### 3️⃣ Run Tests
 
 ```sh
 bazel test //tests/...
 ```
-
----
-
-## 🛠 Tools & Linters
-
-The template integrates **tools and linters** from **centralized repositories** to ensure consistency across projects.
-
-- **C++:** `clang-tidy`, `cppcheck`, `Google Test`
-- **Rust:** `clippy`, `rustfmt`, `Rust Unit Tests`
-- **CI/CD:** GitHub Actions for automated builds and tests
-
----
-
-## 📖 Documentation
-
-- A **centralized docs structure** is planned.
-
----
-
-## ⚙️ `project_config.bzl`
-
-This file defines project-specific metadata used by Bazel macros, such as `dash_license_checker`.
-
-### 📌 Purpose
-
-It provides structured configuration that helps determine behavior such as:
-
-- Source language type (used to determine license check file format)
-- Safety level or other compliance info (e.g. ASIL level)
-
-### 📄 Example Content
-
-```python
-PROJECT_CONFIG = {
-    "asil_level": "QM",  # or "ASIL-A", "ASIL-B", etc.
-    "source_code": ["cpp", "rust"]  # Languages used in the module
-}
-```
-
-### 🔧 Use Case
-
-When used with macros like `dash_license_checker`, it allows dynamic selection of file types
- (e.g., `cargo`, `requirements`) based on the languages declared in `source_code`.
