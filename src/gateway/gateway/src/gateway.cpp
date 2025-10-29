@@ -52,7 +52,7 @@ Gateway::Create_result Gateway::create(std::string const& plugin_path,
 {
     auto dlopen_result = create_dlopen(plugin_path);
     if (!dlopen_result.has_value()) {
-        return Create_result::unexpected_type("Unable to load plugin: " + dlopen_result.error());
+        return score::cpp::make_unexpected("Unable to load plugin: " + dlopen_result.error());
     }
 
     Runtime::Uptr runtime = create_runtime();
@@ -65,7 +65,7 @@ Gateway::Create_result Gateway::create(std::string const& plugin_path,
             *runtime, network_interface, ip_address, manifests);
 
     if (nullptr == plugin) {
-        return Create_result::unexpected_type("Unable to create plugin instance");
+        return score::cpp::make_unexpected<std::string>("Unable to create plugin instance");
     }
 
     return Gateway{std::move(runtime), std::move(*dlopen_result), std::move(plugin)};

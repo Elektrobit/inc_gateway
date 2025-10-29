@@ -14,11 +14,11 @@
 #ifndef SCORE_SOCOM_RESULT_HPP
 #define SCORE_SOCOM_RESULT_HPP
 
-#include <score/expected.hpp>
+#include "score/expected.hpp"
 
 namespace score::socom {
 template<typename T, typename E>
-using Result = score::expected<T, E>;
+using Result = score::cpp::expected<T, E>;
 
 struct None {};
 } // namespace score::socom

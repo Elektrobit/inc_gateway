@@ -36,12 +36,20 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@score-baselibs//score/result",
+        "@score-baselibs//score/language/futurecpp",
     ],
 )
 
 cc_shared_library(
     name = "socom",
+    exports_filter = [
+        # "@score-baselibs//score/result:result",
+        # "@score-baselibs//score/result:error",
+        # "@score-baselibs//score/result/details/expected:extensions",
+        # "@score-baselibs//score/result/details/expected:expected",
+        # "@score-baselibs//score/language/futurecpp:futurecpp",
+        # "@score-baselibs//score/language/futurecpp:math",
+    ],
     features = COMPILER_WARNING_FEATURES,
     visibility = ["//visibility:public"],
     deps = [

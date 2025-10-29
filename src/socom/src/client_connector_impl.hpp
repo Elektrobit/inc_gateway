@@ -109,7 +109,7 @@ ReturnType Impl::lock_server(F const& on_server_locked) const
     if (locked_server) {
         return on_server_locked(*locked_server);
     }
-    return typename ReturnType::unexpected_type(Error::runtime_error_service_not_available);
+    return score::cpp::make_unexpected(Error::runtime_error_service_not_available);
 }
 
 template<typename MessageType>

@@ -43,7 +43,7 @@ score::socom::Result<Dlopen::Uptr, Dlopen::Error> create_dlopen(std::string cons
     if (nullptr == handle) {
         auto const error = ::dlerror();
         assert(error != nullptr);
-        return score::socom::Result<Dlopen::Uptr, Dlopen::Error>::unexpected_type(error);
+        return score::cpp::make_unexpected<std::string>(error);
     }
 
     return score::socom::Result<Dlopen::Uptr, Dlopen::Error>{std::make_unique<Dlopen_impl>(handle)};

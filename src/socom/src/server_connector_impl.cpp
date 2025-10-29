@@ -36,8 +36,7 @@ namespace {
 template<typename T>
 Enabled_server_connector::Result<T> create_error()
 {
-    return typename Enabled_server_connector::Result<T>::unexpected_type(
-        Server_connector_error::logic_error_id_out_of_range);
+    return score::cpp::make_unexpected(Server_connector_error::logic_error_id_out_of_range);
 }
 
 } // namespace
@@ -287,8 +286,7 @@ message::Connect::Return_type Impl::receive(message::Connect message)
 
     // LCOV_EXCL_START
     if (nullptr == m_stop_block_token) {
-        return message::Connect::Return_type::unexpected_type{
-            Error::runtime_error_service_not_available};
+        return score::cpp::make_unexpected(Error::runtime_error_service_not_available);
     }
 
     // LCOV_EXCL_STOP
@@ -311,8 +309,7 @@ message::Call_method::Return_type Impl::receive(Client_connection const& /*clien
                                                 message::Call_method const& message)
 {
     if (message.id >= m_configuration.get_num_methods()) {
-        return message::Call_method::Return_type::unexpected_type(
-            Error::logic_error_id_out_of_range);
+        return score::cpp::make_unexpected(Error::logic_error_id_out_of_range);
     }
 
     assert(message.id < m_configuration.get_num_methods());
@@ -334,8 +331,7 @@ message::Subscribe_event::Return_type Impl::receive(Client_connection const& cli
                                                     message::Subscribe_event message)
 {
     if (message.id >= m_event_infos.size()) {
-        return message::Subscribe_event::Return_type::unexpected_type(
-            Error::logic_error_id_out_of_range);
+        return score::cpp::make_unexpected(Error::logic_error_id_out_of_range);
     }
 
     assert(message.id < m_event_infos.size());
@@ -383,8 +379,7 @@ message::Unsubscribe_event::Return_type Impl::receive(Client_connection const& c
                                                       message::Unsubscribe_event message)
 {
     if (message.id >= m_event_infos.size()) {
-        return message::Unsubscribe_event::Return_type::unexpected_type(
-            Error::logic_error_id_out_of_range);
+        return score::cpp::make_unexpected(Error::logic_error_id_out_of_range);
     }
 
     unsubscribe_event(client, message.id);
@@ -395,8 +390,7 @@ message::Request_event_update::Return_type Impl::receive(Client_connection const
                                                          message::Request_event_update message)
 {
     if (message.id >= m_update_requester.size()) {
-        return message::Request_event_update::Return_type::unexpected_type(
-            Error::logic_error_id_out_of_range);
+        return score::cpp::make_unexpected(Error::logic_error_id_out_of_range);
     }
 
     assert(message.id < m_update_requester.size());
