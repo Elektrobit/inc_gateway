@@ -26,7 +26,7 @@ cc_binary(
     features = COMPILER_WARNING_FEATURES,
     visibility = ["//visibility:public"],
     deps = [
-        "//src/gateway/common",
+        "//src/gateway/assert_handler",
         "//src/gateway/test_integration/common",
         "@boost.program_options",
         "@communication//score/mw/com",
