@@ -68,5 +68,5 @@ It does not provide any build system integration yet.
 ### 3️⃣ Run Tests
 
 ```sh
-bazel test //tests/...
+bazel test //...
 ```
