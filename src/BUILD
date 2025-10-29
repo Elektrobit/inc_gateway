@@ -45,9 +45,9 @@ pkg_tar(
 pkg_tar(
     name = "applications",
     srcs = [
-        "//src/gateway/common:common.sh",
         "//src/gateway/gateway:someip_gateway",
         "//src/gateway/test_integration:test_someip_gateway.sh",
+        "//src/gateway/test_integration/common:common.sh",
         "//src/gateway/test_integration/ipc_test_client:ipc_bridge_cpp",
         "//src/gateway/test_integration/ipc_test_client:ipc_bridge_rs",
         "//src/gateway/test_integration/someip_plugin:someip_network_plugin",

@@ -25,7 +25,7 @@ cc_binary(
     linkshared = True,
     visibility = ["//visibility:public"],
     deps = [
-        "//src/gateway/common",
         "//src/gateway/plugin_interface:someip_plugin_interface_lib",
+        "//src/gateway/test_integration/common",
     ],
 )

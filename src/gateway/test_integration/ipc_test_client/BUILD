@@ -27,6 +27,7 @@ cc_binary(
     visibility = ["//visibility:public"],
     deps = [
         "//src/gateway/common",
+        "//src/gateway/test_integration/common",
         "@boost.program_options",
         "@communication//score/mw/com",
         "@score-baselibs//score/language/futurecpp",
@@ -62,7 +63,7 @@ cc_library(
     srcs = ["rust/ipc_bridge_gen.cpp"],
     features = COMPILER_WARNING_FEATURES,
     implementation_deps = [
-        "//src/gateway/common",
+        "//src/gateway/test_integration/common",
         "@communication//score/mw/com/impl/rust:bridge_macros",
     ],
 )

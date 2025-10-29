@@ -15,7 +15,6 @@
 
 #include "dlopen.hpp"
 
-#include <score/gateway/common.h>
 #include <score/gateway/payload_transformation_plugin_interface.hpp>
 #include <score/gateway/plugin_handle.hpp>
 #include <score/socom/runtime.hpp>

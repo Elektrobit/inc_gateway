@@ -14,6 +14,11 @@
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
+exports_files(
+    ["common.sh"],
+    visibility = ["//visibility:public"],
+)
+
 cc_library(
     name = "common",
     srcs = glob(include = ["src/**"]),
@@ -25,6 +30,6 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "@score-baselibs//score/language/futurecpp",
+        "@communication//score/mw/com",
     ],
 )

@@ -20,8 +20,8 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     visibility = ["//visibility:public"],
     deps = [
-        "//src/gateway/common",
         "//src/gateway/plugin_interface:someip_plugin_interface_lib",
+        "//src/gateway/test_integration/common",
         "@communication//score/mw/com",
     ],
     alwayslink = 1,
