@@ -71,3 +71,27 @@ It does not provide any build system integration yet.
 ```sh
 bazel test //...
 ```
+
+The [gateway tests](src/gateway/test_integration) use a stub plugin, which sends events unconditionally.
+You can log at the complete logs of their execution with
+
+```sh
+bazel test //src/gateway/test_integration/... --test_output=all
+```
+
+### 4 Running the SOME/IP Gateway
+
+After you have written and compiled a SOME/IP network plugin you can run the gateway with the following command:
+
+```sh
+someip_gateway \
+  -s /tmp/mw_com_lola_service_manifest.json \
+  --cycle-time 10 \
+  --num-cycles 0 \
+  --plugin-path path/to/libsomeip-plugin-20-11.so \
+  --xsomeip-manifest-dir /path/to/someip/manifest/dir/ \
+  --interface dummy0 \
+  --address fd00::deaf
+```
+
+Please keep in mind that you will have to alter some parameters to match your environment and set it up.
