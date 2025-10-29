@@ -18,8 +18,10 @@
 
 namespace score::gateway {
 
+/// Interface configuration used in tests
 score::socom::Server_service_interface_configuration const& get_interface_configuration();
 
+/// Instance used in tests
 score::socom::Service_instance const& get_instance();
 
 } // namespace score::gateway
