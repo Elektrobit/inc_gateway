@@ -44,6 +44,7 @@ exports_files(
 
 sh_test(
     name = "integration_test_someip_gateway",
+    timeout = "short",
     srcs = [
         "test_someip_gateway.sh",
     ],
