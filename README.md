@@ -7,6 +7,7 @@ The SOME/IP Gateway uses a plugin architecture to realize SOME/IP network access
 The implementation tries to stick as much as possible to the [proposed architecture](https://eclipse-score.github.io/score/main/features/communication/some_ip_gateway/architecture/index.html).
 Because the SOME/IP Gateway code shall be kept generic the IPC code was moved into the payload transformation plugin.
 Otherwise it was not possible to keep the gateway code service agnostic.
+The process split is not done yet, but has to be done eventually.
 
 This is the code for [Elektrobits contribution](https://github.com/eclipse-score/score/issues/1830)
 

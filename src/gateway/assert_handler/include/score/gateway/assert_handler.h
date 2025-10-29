@@ -15,6 +15,7 @@
 
 namespace score::gateway {
 
+/// \brief Sets up the assertion handler for mw::com assertions to print error messages for failed assertions
 void SetupAssertHandler();
 
 } // namespace score::gateway
