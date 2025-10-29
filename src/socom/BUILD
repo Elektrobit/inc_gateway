@@ -36,7 +36,7 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        # "@score-baselibs//score/result",
+        "@score-baselibs//score/result",
     ],
 )
 
