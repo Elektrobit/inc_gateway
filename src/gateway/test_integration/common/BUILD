@@ -26,10 +26,11 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     includes = [
         "include",
-        "src/gateway/common/include",
+        "src/gateway/test_integration/common/include",
     ],
     visibility = ["//visibility:public"],
     deps = [
+        "//src/socom:socom_lib",
         "@communication//score/mw/com",
     ],
 )
