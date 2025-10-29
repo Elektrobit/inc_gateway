@@ -4,9 +4,11 @@
     "customizations": {
         "vscode": {
             "extensions": [
+                "asciidoctor.asciidoctor-vscode",
                 "matepek.vscode-catch2-test-adapter"
             ],
             "settings": {
+                "asciidoc.extensions.enableKroki": true,
                 "testMate.cpp.test.executables": "bazel-bin/**/*{test,Test,TEST}*"
             }
         }

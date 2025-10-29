@@ -11,26 +11,21 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
-exports_files(
-    ["common.sh"],
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "common",
+cc_binary(
+    name = "someip_network_plugin",
     srcs = glob(include = ["src/**"]),
-    hdrs = glob(include = ["include/**"]),
-    features = COMPILER_WARNING_FEATURES,
-    includes = [
-        "include",
-        "src/gateway/common/include",
+    dynamic_deps = [
+        "//src/gateway/plugin_interface:someip_plugin_interface",
+        "//src/socom",
     ],
+    features = COMPILER_WARNING_FEATURES,
+    linkshared = True,
     visibility = ["//visibility:public"],
     deps = [
-        "@communication//score/mw/com",
-        "@score-baselibs//score/language/futurecpp",
+        "//src/gateway/plugin_interface:someip_plugin_interface_lib",
+        "//src/gateway/test_integration/common",
     ],
 )

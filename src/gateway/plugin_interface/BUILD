@@ -31,14 +31,10 @@ cc_library(
         "src/gateway/plugin_interface/include",
     ],
     visibility = ["//visibility:public"],
-    deps = [
-        "//src/socom:socom_lib",
-    ],
 )
 
 cc_shared_library(
     name = "someip_plugin_interface",
-    dynamic_deps = ["//src/socom:socom"],
     features = COMPILER_WARNING_FEATURES,
     visibility = ["//visibility:public"],
     deps = [

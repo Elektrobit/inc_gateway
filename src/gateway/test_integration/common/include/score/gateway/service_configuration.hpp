@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Elektrobit Automotive GmbH
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -10,13 +10,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-#ifndef SCORE_MW_IPC_BRIDGE_ASSERTHANDLER_H
-#define SCORE_MW_IPC_BRIDGE_ASSERTHANDLER_H
+
+#ifndef SCORE_MW_COM_IPC_BRIDGE_SERVICE_CONFIGURATION_H
+#define SCORE_MW_COM_IPC_BRIDGE_SERVICE_CONFIGURATION_H
+
+#include <score/socom/service_interface_configuration.hpp>
 
 namespace score::gateway {
 
-void SetupAssertHandler();
+/// Interface configuration used in tests
+score::socom::Server_service_interface_configuration const& get_interface_configuration();
+
+/// Instance used in tests
+score::socom::Service_instance const& get_instance();
 
 } // namespace score::gateway
 
-#endif // SCORE_MW_IPC_BRIDGE_ASSERTHANDLER_H
+#endif

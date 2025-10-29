@@ -15,14 +15,16 @@ load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
-    name = "payload_transformation_plugin",
+    name = "assert_handler",
     srcs = glob(include = ["src/**"]),
+    hdrs = glob(include = ["include/**"]),
     features = COMPILER_WARNING_FEATURES,
+    includes = [
+        "include",
+        "src/gateway/assert_handler/include",
+    ],
     visibility = ["//visibility:public"],
     deps = [
-        "//src/gateway/common",
-        "//src/gateway/plugin_interface:someip_plugin_interface_lib",
-        "@communication//score/mw/com",
+        "@score-baselibs//score/language/futurecpp",
     ],
-    alwayslink = 1,
 )
