@@ -12,71 +12,43 @@
    # SPDX-License-Identifier: Apache-2.0
    # *******************************************************************************
 
-Module Template Documentation
-=============================
+.. _some_ip_gateway_architecture:
 
-This documentation describes the structure, usage and configuration of the Bazel-based C++/Rust module template.
+SOME/IP Gateway Architecture (Prototype)
+########################################
 
-.. contents:: Table of Contents
-   :depth: 2
-   :local:
+.. toctree::
+   :titlesonly:
 
 Overview
---------
+========
+The prototype imlements the basic structure as defined in the corresponding `feature request`_.
+It acts as a regular mw::com ipc client on the one side and forwards as a SOME/IP client on the other side.
+Actual payload transformation is not yet realized, instead binary data (interpreted as ascii text) is used for demonstration.
+Although there is no actual payload transformation, the structure already foresees the "transformation plugin architecture" as defined in the  `feature request`_.
+The two required plugin interfaces are realized with the SOCom infrasstructure.
 
-This repository provides a standardized setup for projects using **C++** or **Rust** and **Bazel** as a build system.
-It integrates best practices for build, test, CI/CD and documentation.
+**TBD:** Some 2-3 sentences to advertise SOCom.
 
-Requirements
-------------
+The SOME/IP plugin exists in 2 implementations, one implementation is a test mock which simply sends the binary ascii data "Hello Gateway"
+and the other implemention is an actual implementation with an AUTOSAR compatible SOME/IP stack. This implementation can just be demonstrated
+but is not part of the source repository.
 
-.. stkh_req:: Example Functional Requirement
-   :id: stkh_req__docgen_enabled__example
-   :status: valid
-   :safety: QM
-   :security: YES
-   :reqtype: Functional
-   :rationale: Ensure documentation builds are possible for all modules
+.. _feature request: https://eclipse-score.github.io/score/main/features/communication/some_ip_gateway/index.html
 
 
-Project Layout
---------------
+.. figure:: some_ip_gateway_prototype.drawio.svg
+   :align: center
+   :name: _some_ip_gateway_prototype
 
-The module template includes the following top-level structure:
+   General overview of the prototype of the SOME/IP Gateway
 
-- `src/`: Main C++/Rust sources
-- `tests/`: Unit and integration tests
-- `examples/`: Usage examples
-- `docs/`: Documentation using `docs-as-code`
-- `.github/workflows/`: CI/CD pipelines
+SOCom Details
+=============
+**TBD:** Description
 
-Quick Start
------------
+.. figure:: some_ip_gateway_prototype_socom_details.drawio.svg
+   :align: center
+   :name: _some_ip_gateway_prototype_socom_details
 
-To build the module:
-
-.. code-block:: bash
-
-   bazel build //src/...
-
-To run tests:
-
-.. code-block:: bash
-
-   bazel test //tests/...
-
-Configuration
--------------
-
-The `project_config.bzl` file defines metadata used by Bazel macros.
-
-Example:
-
-.. code-block:: python
-
-   PROJECT_CONFIG = {
-       "asil_level": "QM",
-       "source_code": ["cpp", "rust"]
-   }
-
-This enables conditional behavior (e.g., choosing `clang-tidy` for C++ or `clippy` for Rust).
+   SOCom utilization within SOME/IP Gateway prototype
