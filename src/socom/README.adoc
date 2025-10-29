@@ -21,7 +21,3 @@ SOCom provides intra-process client/server communication only.
 == Design
 
 See <<doc/design/README.adoc#,design/>> for a high level design.
-
-== Requirements
-
-See <<design/20_design_decisions.adoc#,requirements/>> for requirements.
