@@ -54,7 +54,7 @@ This implementation can be demonstrated but is not part of the source repository
 SOCom Details
 =============
 
-``SOCom`` is a SOME/IP abstraction with a plugin API for bridges.
+`SOCom`_ is a SOME/IP abstraction with a plugin API for bridges.
 Via bridges it gains access to IPC or the network (SOME/IP in this case).
 ``SOCom`` treats payloads as binary blobs and supports events, methods and fields.
 
