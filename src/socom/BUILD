@@ -54,6 +54,7 @@ cc_shared_library(
     visibility = ["//visibility:public"],
     deps = [
         ":socom_lib",
+        "@score-baselibs//score/language/futurecpp",
     ],
 )
 
