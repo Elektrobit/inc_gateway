@@ -46,48 +46,6 @@ include::models/component_diagram_socom.puml[]
 * <<client_connector_component>>;
 * <<server_connector_component>>;
 
-[id=provided_interfaces_socom, reftext=hpcmw::socom]
-== Provided Interfaces
-The interfaces provided by SOCom are listed in the following table.
-
-.Provided Interfaces
-|====
-| Name | Description
-
-| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Runtime.html++[Runtime]
-| Interface that provides access to the service oriented communication (SOCom) middleware.
-
-| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Client__connector.html++[Client_connector]
-| Interface for applications to use a service (client-role).
-
-| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Disabled__server__connector.html++[Disabled_server_connector]
-| Interface for applications to use a service (server-role).
-
-| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Enabled__server__connector.html++[Enabled_server_connector]
-| Interface for applications to use a service (server-role).
-
-| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Bridge__identity.html++[Bridge_identity]
-| Class for a bridge identification.
-
-| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Find__subscription__handle.html++[Find_subscription_handle]
-| Interface class for Find_subscription RAII type.
-
-| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Service__bridge__registration__handle.html++[Service_bridge_registration_handle]
-| Interface class for Service_bridge_registration RAII type.
-
-| link:++../../../../doc/doxygen/html/classhpcmw_1_1socom_1_1Service__request__handle.html++[Service_request_handle]
-| Interface class for Service_request RAII type
-
-|====
-
-== Required Interfaces
-The SOCom library dependencies are listed in the table below.
-
-.Required Interfaces
-* <<../../../_common/doc/design/README.adoc#provided_interfaces_common,socom-common>>
-* core
-* base-logging
-
 [#client_connector_component]
 == Client connector
 

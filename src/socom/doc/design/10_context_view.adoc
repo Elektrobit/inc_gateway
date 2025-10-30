@@ -25,9 +25,7 @@ include::file.adoc[leveloffset=+1]
 
 = Context View
 
-{hpcmw} functional clusters use the functionality provided by the SOCom library.
-
-The SOCom library provides the <<provided_interfaces_socom>> public interfaces and is dependent on the <<provided_interfaces_common, interfaces of the Common>>, as well as the <<interface-view-core, interfaces provided by the core element>> and <<interface-view-mw_logging, interfaces provided by the mw_logging module>> components.
+Functional clusters use the functionality provided by the SOCom library.
 
 .Context diagram of SOCom
 [plantuml, svg, align="center"]
