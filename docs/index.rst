@@ -83,4 +83,4 @@ This enables conditional behavior (e.g., choosing `clang-tidy` for C++ or `clipp
 
 
 Dummy changes to test Github Actions.
-Should not be merged
+Should not be merged.
