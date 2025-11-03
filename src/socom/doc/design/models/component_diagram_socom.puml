@@ -14,29 +14,10 @@
 @startuml
 left to right direction
 package SOCom {
-    package "SOCom library" {
-        Component Client_connector
-        Component Server_connector
-        Component Runtime
-    }
-
-    together {
-    package Common {
-        Component Service_interface_configuration
-    }
-
-    }
-
-}
-
-together {
-package "Core" {
-    component "Core Types" as Core_types
-}
-
-package "Logging" {
-    component "Logger" as Logger
-}
+    Component Client_connector
+    Component Server_connector
+    Component Runtime
+    Component Service_interface_configuration
 }
 
 () "Client_connector" as Client_connector_if
@@ -49,13 +30,7 @@ Disabled_server_connector_if -- Server_connector
 Enabled_server_connector_if -- Server_connector
 Runtime_if -- Runtime
 
-Runtime --> Logger : depends
-
 Client_connector --> Service_interface_configuration : depends
 Server_connector --> Service_interface_configuration : depends
 Runtime --> Service_interface_configuration : depends
-
-Client_connector -> Core_types : depends
-Server_connector -> Core_types : depends
-Runtime -> Core_types : depends
 @enduml

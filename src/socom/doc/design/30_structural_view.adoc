@@ -46,6 +46,13 @@ include::models/component_diagram_socom.puml[]
 * <<client_connector_component>>;
 * <<server_connector_component>>;
 
+[#runtime_component]
+== Runtime
+
+The Runtime creates and connects Client_connectors and Server_connectors.
+In addition to that it has a plugin interface for adding bridges to cross IPC or network boundaries.
+The Runtime must outlive all created Client_connectors and Server_connectors.
+
 [#client_connector_component]
 == Client connector
 
@@ -53,16 +60,22 @@ A client application owns and uses this component to join client/server pattern 
 The client connector interacts with the server connector in order perform the supported communication primitives.
 The client connector API provides the following features:
 
-* service instance state change indications;
-* asynchronous remote procedure call:
+* service instance state change indications
+* asynchronous remote procedure call
 
-** with method reply;
-** without method reply (fire and forget).
+** with method reply
+** without method reply (fire and forget)
 
-* event subscription:
+* event subscription
 
-** with optional initial value request.
+** with optional initial value request (required for fields)
 
-* event subscription acknowledge indication;
-* event update indication;
-* requested event update indication.
+* event subscription acknowledge indication
+* event update indication
+* requested event update indication
+
+[#server_connector_component]
+== Server connector
+
+The Server_connector represents a service, which is used by a Client_connector.
+It can send event updates and respond to method calls.
