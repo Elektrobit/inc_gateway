@@ -34,7 +34,6 @@
 [#software_element_socom]
 == SOCom library
 
-include::10_context_view.adoc[leveloffset=+1]
 include::30_structural_view.adoc[leveloffset=+1]
 include::40_behavioral_view.adoc[leveloffset=+1]
 include::50_state_dynamics_view.adoc[leveloffset=+1]
