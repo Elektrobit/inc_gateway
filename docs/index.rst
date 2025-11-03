@@ -24,7 +24,7 @@ Overview
 ========
 
 The prototype implements the basic structure as defined in the corresponding `feature request`_.
-It acts as a regular ``mw::com`` ipc client on the one side and as a SOME/IP client on the other side.
+It acts as a regular ``mw::com`` IPC client on the one side and as a SOME/IP client on the other side.
 Actual payload transformation is not yet realized, instead binary data (interpreted as ASCII text) is used for demonstration.
 Although there is no actual payload transformation, the structure already foresees the "transformation plugin architecture" as defined in the  `feature request`_.
 
@@ -34,11 +34,11 @@ The two required `plugin interfaces`_ are realized with the `SOCom`_ library:
 - ``Payload_transformation_plugin_interface``
 
 Both plugins and their implementations are oblivious to each other.
-Decoupling achieved with the ``SOCom`` library, which is a SOME/IP abstraction with a plugin API for bridges.
+Decoupling is achieved with the ``SOCom`` library, which is a SOME/IP abstraction with a plugin API for bridges.
 
-The SOME/IP plugin exists in 2 implementations,
+The SOME/IP plugin exists in two implementations,
 one implementation is a `test mock`_ which simply sends the ASCII data ``Hello Gateway`` and the other implemention is an actual implementation with an AUTOSAR compatible SOME/IP stack.
-This implementation can be demonstrated but is not part of the source repository.
+The second implementation can be demonstrated but is not part of the source repository.
 
 .. _feature request: https://eclipse-score.github.io/score/main/features/communication/some_ip_gateway/index.html
 .. _test mock: ../src/gateway/test_integration/someip_plugin
@@ -77,7 +77,7 @@ The ``Someip_network_plugin_interface`` implementation and the ``Payload_transfo
 Interaction with a SOME/IP daemon
 =================================
 
-The example shows a data flow from an Autosar SOME/IP Daemon via the network and the Gateway to ``mw::com``.
+The example shows a data flow from an AUTOSAR SOME/IP Daemon via the network and the Gateway to ``mw::com``.
 
 .. figure:: reception_from_network.drawio.svg
    :align: center
