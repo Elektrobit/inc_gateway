@@ -80,3 +80,7 @@ Example:
    }
 
 This enables conditional behavior (e.g., choosing `clang-tidy` for C++ or `clippy` for Rust).
+
+
+Dummy changes to test Github Actions.
+Should not be merged
