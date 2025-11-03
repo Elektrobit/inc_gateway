@@ -2,5 +2,9 @@
   {
     "version": "main",
     "url": "https://Elektrobit.github.io/inc_gateway/main/"
+  },
+  {
+    "version": "pr-22",
+    "url": "https://Elektrobit.github.io/inc_gateway/pr-22/"
   }
 ]
