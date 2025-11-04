@@ -41,6 +41,11 @@ bazel_dep(name = "googletest", version = "1.17.0")
 
 # Rust rules for Bazel
 bazel_dep(name = "rules_rust", version = "0.63.0")
+rust = use_extension("@rules_rust//rust:extensions.bzl", "rust")
+rust.toolchain(
+    edition = "2021",
+    versions = ["1.86.0"],
+)
 
 # C/C++ rules for Bazel
 bazel_dep(name = "rules_cc", version = "0.2.1")
