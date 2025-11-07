@@ -72,10 +72,14 @@ archive_override(
 )
 
 bazel_dep(name = "boost.program_options", version = "1.87.0")
-bazel_dep(name = "score-baselibs", version = "0.0.0")
+bazel_dep(name = "score_baselibs", version = "0.2.0")
 git_override(
-    module_name = "score-baselibs",
-    commit = "f02d7f427df1968df8d5f9f9aa85bf68baeb839e",
+    module_name = "score_baselibs",
+    commit = "de5bb275ee9957433b3587582ac07d3eeb98dd6a",
+    patch_strip = 1,
+    patches = [
+        "//:wait_free_stack_fix.patch",
+    ],
     remote = "https://github.com/eclipse-score/baselibs.git",
 )
 
@@ -91,7 +95,7 @@ git_override(
 bazel_dep(name = "communication", version = "0.0.0")
 git_override(
     module_name = "communication",
-    commit = "3ab524104ed0adb4451c045e407c0e7fe68dbc08",
+    commit = "ff40e5f1e90ce406b71c664cc6c8e902ab465305",
     remote = "https://github.com/eclipse-score/communication.git",
 )
 

@@ -12,7 +12,7 @@
 # *******************************************************************************
 
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_binary(
     name = "someip_network_plugin",

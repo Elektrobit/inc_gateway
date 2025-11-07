@@ -14,7 +14,7 @@
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_library")
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_binary(
     name = "ipc_bridge_cpp",
@@ -30,7 +30,7 @@ cc_binary(
         "//src/gateway/test_integration/common",
         "@boost.program_options",
         "@communication//score/mw/com",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
