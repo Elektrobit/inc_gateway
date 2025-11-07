@@ -12,7 +12,7 @@
 # *******************************************************************************
 
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
-load("@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_binary(
     name = "someip_gateway",
@@ -28,7 +28,7 @@ cc_binary(
         "//src/gateway/test_integration/payload_transformation_plugin",  # plugin statically linked
         "@boost.program_options",
         "@communication//score/mw/com",
-        "@score-baselibs//score/language/futurecpp",
-        "@score-baselibs//score/os:glob",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/os:glob",
     ],
 )
