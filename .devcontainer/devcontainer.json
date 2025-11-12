@@ -1,6 +1,6 @@
 {
     "name": "eclipse-s-core",
-    "image": "ghcr.io/eclipse-score/devcontainer:latest",
+    "image": "ghcr.io/eclipse-score/devcontainer:0.1.0",
     "customizations": {
         "vscode": {
             "extensions": [
